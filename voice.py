@@ -61,7 +61,7 @@ def translate_text(text, dest_lang):
     return translation.text
 
 def speak_text(text):
-    directory = "/Users/renuk/Desktop"
+    directory = "C:/Users/renuk/OneDrive/Desktop/Words"
     filename = "output.mp3"
     
     # Ensure the directory exists
