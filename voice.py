@@ -63,9 +63,11 @@ def translate_text(text, dest_lang):
 def speak_text(text):
      tts = gTTS(text=text, lang='en')  # Adjust 'lang' parameter as needed for other languages
      tts.save("output.mp3")
+     print("Current working directory:", os.getcwd())
+     os.system("start output.mp3")  # Opens the mp3 file with the default application
      playsound("output.mp3")
      os.remove("output.mp3") 
-    #os.system("start output.mp3")  # Opens the mp3 file with the default application
+    
 
   # Opens the mp3 file with the default application
 
