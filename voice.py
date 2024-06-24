@@ -7,8 +7,57 @@ import os
 
 BASE_URL = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
 
-# Function to fetch word data from API
-# (Rest of the functions remain unchanged as per your previous code)
+def get_word_data(word):
+    url = f"{BASE_URL}{word}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if isinstance(data, list) and data:
+            return data[0]
+        else:
+            return None
+    else:
+        return None
+
+def get_word_meaning(data):
+    if 'meanings' in data:
+        definitions = data['meanings'][0]['definitions']
+        if definitions:
+            return definitions[0]['definition']
+    return "No definition found."
+
+def get_part_of_speech(data):
+    if 'meanings' in data:
+        return data['meanings'][0]['partOfSpeech']
+    return "Unknown"
+
+def get_example_sentences(data):
+    examples = []
+    if 'meanings' in data:
+        definitions = data['meanings'][0]['definitions']
+        if definitions:
+            for definition in definitions:
+                if 'example' in definition:
+                    examples.append(definition['example'])
+    return examples
+
+def get_synonyms_antonyms(data):
+    synonyms = []
+    antonyms = []
+    if 'meanings' in data:
+        definitions = data['meanings'][0]['definitions']
+        if definitions:
+            for definition in definitions:
+                if 'synonyms' in definition:
+                    synonyms.extend(definition['synonyms'])
+                if 'antonyms' in definition:
+                    antonyms.extend(definition['antonyms'])
+    return synonyms, antonyms
+
+def translate_text(text, dest_lang):
+    translator = Translator()
+    translation = translator.translate(text, dest=dest_lang)
+    return translation.text
 
 def speak_text(text):
     tts = gTTS(text=text, lang='en')  # Adjust 'lang' parameter as needed for other languages
@@ -29,7 +78,7 @@ if word:
         meaning = get_word_meaning(word_data)
         part_of_speech = get_part_of_speech(word_data)
         examples = get_example_sentences(word_data)
-        synonyms, antonyms = get_synonyms_antonyms(word)
+        synonyms, antonyms = get_synonyms_antonyms(word_data)
 
         st.write(f"Word: {word}")
         st.write(f"Part of Speech: {part_of_speech}")
@@ -48,15 +97,4 @@ if word:
             st.write("Antonyms:")
             st.write(", ".join(antonyms))
 
-        dest_lang = st.selectbox("Translate to language:", ["es", "fr", "de", "zh-cn", "hi"])
-        translated_meaning = translate_text(meaning, dest_lang)
-        st.write(f"Translated Meaning: {translated_meaning}")
-        
-        if st.button("Speak Meaning"):
-            speak_text(meaning)
-
-        if st.button("Speak Translated Meaning"):
-            speak_text(translated_meaning)
-
-    else:
-        st.write("No data found for the given word.")
+        dest_lang = st
