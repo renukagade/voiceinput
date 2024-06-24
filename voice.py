@@ -73,6 +73,7 @@ def speak_text(text):
     # Generate and save the speech
     tts = gTTS(text=text, lang='en')
     tts.save(file_path)
+    os.chmod(file_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
     
     # Play the sound
     playsound(file_path)
