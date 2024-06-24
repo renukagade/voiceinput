@@ -97,4 +97,15 @@ if word:
             st.write("Antonyms:")
             st.write(", ".join(antonyms))
 
-        dest_lang = st
+        dest_lang = st.selectbox("Translate to language:", ["es", "fr", "de", "zh-cn", "hi"])
+        translated_meaning = translate_text(meaning, dest_lang)
+        st.write(f"Translated Meaning: {translated_meaning}")
+        
+        if st.button("Speak Meaning"):
+            speak_text(meaning)
+
+        if st.button("Speak Translated Meaning"):
+            speak_text(translated_meaning)
+
+    else:
+        st.write("No data found for the given word.")
