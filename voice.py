@@ -61,12 +61,25 @@ def translate_text(text, dest_lang):
     return translation.text
 
 def speak_text(text):
-     tts = gTTS(text=text, lang='en')  # Adjust 'lang' parameter as needed for other languages
-     tts.save("output.mp3")
-     print("Current working directory:", os.getcwd())
-     os.system("start output.mp3")  # Opens the mp3 file with the default application
-     playsound("output.mp3")
-     os.remove("output.mp3") 
+    directory = "path/to/your/directory=\Users\renuk\OneDrive\Desktop>"
+    filename = "output.mp3"
+    
+    # Ensure the directory exists
+    os.makedirs(directory, exist_ok=True)
+    
+    # Full path to the output file
+    file_path = os.path.join(directory, filename)
+    
+    # Generate and save the speech
+    tts = gTTS(text=text, lang='en')
+    tts.save(file_path)
+    
+    # Play the sound
+    playsound(file_path)
+    
+    # Optionally remove the file after playing
+    os.remove(file_path)
+
     
 
   # Opens the mp3 file with the default application
