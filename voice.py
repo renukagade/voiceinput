@@ -60,9 +60,12 @@ def translate_text(text, dest_lang):
     return translation.text
 
 def speak_text(text):
-    tts = gTTS(text=text, lang='en')  # Adjust 'lang' parameter as needed for other languages
-    tts.save("output.mp3")
-    os.system("start output.mp3")  # Opens the mp3 file with the default application
+    tts = gTTS(text)
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.mp3') as fp:
+        tts.save(fp.name)
+        st.audio(fp.name, format='audio/mp3')
+        os.remove(fp.name)
+  # Opens the mp3 file with the default application
 
 # Streamlit UI
 st.title("Enhanced Multilingual Dictionary Bot")
