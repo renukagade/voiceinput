@@ -2,6 +2,7 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer, ClientSettings, WebRtcMode
 import av
 import speech_recognition as sr
+import numpy as np
 
 # Initialize session state for WebRTC and transcription
 if "webrtc_initialized" not in st.session_state:
@@ -46,5 +47,5 @@ if st.button("Use Voice Input") and not st.session_state["webrtc_initialized"]:
 # Display the transcription if available
 if st.session_state["webrtc_initialized"]:
     st.write("Listening...")
-    if st.session_state["transcription"]:
+    if "transcription" in st.session_state and st.session_state["transcription"]:
         st.write("You said: ", st.session_state["transcription"])
